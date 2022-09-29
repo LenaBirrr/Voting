@@ -4,39 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Voting
 {
+   
     public class Voting
     {
-        public enum Choice
+              
+        public Choice Run()
         {
-            NONE,
-            CANDIDAD_1,
-            CANDIDAT_2,
-            CANDIDAT_3,
-            CANDIDAT_MULTIPAL,
-        }
-        public string address = "test_address";
-        public int[] votes = new int[3];
-        public void ValidateChoice(ref Choice choice, bool spoiled)
-        {
-            if(choice==Choice.NONE||choice==Choice.CANDIDAT_MULTIPAL)
-            {
-                spoiled = true;
-            }
-            else
-            {
-                votes[((int)choice)]++;
-            }
-        }
+            Voter voter = new Voter(Choice.CANDIDAD_1, false, "test_address");
+            Box box = new Box();
+            Commission commission = new Commission();
+            Bulletin bulletin = new Bulletin();
+            voter.Vote(bulletin);
+            box.CountBulletin(bulletin);
+            return commission.GetWinner(box);
 
-        public bool ValidateVoter(string address)
-        {
-            return this.address == address;
-        }
-        public Choice GetWinner()
-        {
-            return (Choice)Array.IndexOf(votes,votes.Max());
+
         }
 
     }
